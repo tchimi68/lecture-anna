@@ -15,8 +15,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Caveat:wght@600;700&display=swap');
 
 :root{
-  --green:#0e7a3d;
-  --other:#4fbd76;
+  --green:#1f9d55;
+  --other:var(--green);
   --silent:#b7b2ad;
   --ink:#2b2620;
   --bg1:#fff6e9;
@@ -153,12 +153,18 @@ h1,h2,h3{margin:0;}
 }
 .wordcard:active{transform:translateY(3px);box-shadow:none;}
 .wordcard .we{font-size:3.8rem;display:block;margin-bottom:8px;}
-.wordtext{font-size:2rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;}
 .seg-t{color:var(--green);}
 .seg-b{color:var(--other);}
 .seg-s{color:var(--silent);}
 .seg-n{color:var(--ink);}
 .speaker{font-size:.85rem;opacity:.55;margin-top:6px;}
+
+/* tout mot à lire = capitales + script cursif, empilés */
+.word-block{display:flex;flex-direction:column;align-items:center;gap:3px;line-height:1.15;}
+.word-block .w-upper{font-family:'Baloo 2',sans-serif;font-weight:800;letter-spacing:.5px;text-transform:uppercase;}
+.word-block .w-script{font-family:'Caveat',cursive;font-weight:700;text-transform:none;}
+.wordcard .word-block .w-upper{font-size:1.8rem;}
+.wordcard .word-block .w-script{font-size:2.3rem;}
 
 .finishbar{display:flex;justify-content:center;margin-top:20px;}
 .btn{
@@ -185,8 +191,10 @@ h1,h2,h3{margin:0;}
   text-align:center;padding:4px;overflow:hidden;
 }
 .memcard .back{background:linear-gradient(135deg,#ffb4a2,#ffd166);font-size:3.2rem;color:#fff;}
-.memcard .front{background:#fff;transform:rotateY(180deg);font-size:1.3rem;text-transform:uppercase;}
+.memcard .front{background:#fff;transform:rotateY(180deg);}
 .memcard .front.front-emoji{font-size:3.4rem;}
+.memcard .front .word-block .w-upper{font-size:.8rem;}
+.memcard .front .word-block .w-script{font-size:1.05rem;}
 .memcard.flip .back{transform:rotateY(180deg);}
 .memcard.flip .front{transform:rotateY(0);}
 .memcard.matched .front{background:#e5ffe0;}
@@ -196,8 +204,10 @@ h1,h2,h3{margin:0;}
 .optgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .optbtn{
   border:none;border-radius:18px;padding:20px 10px;background:#fff;box-shadow:var(--shadow);
-  font-size:1.6rem;font-weight:800;cursor:pointer;letter-spacing:.5px;text-transform:uppercase;
+  font-size:1.5rem;font-weight:800;cursor:pointer;letter-spacing:.5px;text-transform:uppercase;
 }
+.optbtn .word-block .w-upper{font-size:1.25rem;}
+.optbtn .word-block .w-script{font-size:1.6rem;}
 .optbtn:active{transform:translateY(3px);box-shadow:none;}
 .optbtn.correct{background:#c8f7c5;}
 .optbtn.wrong{background:#ffd0d0;}
@@ -205,14 +215,18 @@ h1,h2,h3{margin:0;}
 @keyframes shake{10%,90%{transform:translateX(-4px)}20%,80%{transform:translateX(6px)}30%,50%,70%{transform:translateX(-9px)}40%,60%{transform:translateX(9px)}}
 
 /* trous */
-.blankword{font-size:2.6rem;font-weight:800;text-align:center;margin:18px 0;text-transform:uppercase;}
+.blankword{text-align:center;margin:18px 0;}
+.blankword .word-block .w-upper{font-size:2rem;}
+.blankword .word-block .w-script{font-size:2.4rem;}
 .blank{display:inline-block;min-width:1.4em;border-bottom:4px dotted var(--accent);color:transparent;}
 
 /* tri */
 .pool{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:14px 0;}
 .chip{
-  border:none;border-radius:16px;padding:12px 18px;background:#fff;box-shadow:var(--shadow);font-weight:800;font-size:1.35rem;cursor:pointer;text-transform:uppercase;
+  border:none;border-radius:16px;padding:10px 16px;background:#fff;box-shadow:var(--shadow);cursor:pointer;
 }
+.chip .word-block .w-upper{font-size:1rem;}
+.chip .word-block .w-script{font-size:1.3rem;}
 .chip.sel{outline:3px solid var(--accent);}
 .chip.placed{opacity:.35;pointer-events:none;}
 .zones{display:flex;gap:14px;margin-top:10px;flex-wrap:wrap;}
@@ -220,8 +234,10 @@ h1,h2,h3{margin:0;}
   flex:1;min-width:140px;border:3px dashed #cbb994;border-radius:18px;padding:12px;min-height:120px;background:rgba(255,255,255,.5);
 }
 .zone h4{margin:0 0 8px;text-align:center;font-size:1.05rem;}
-.zone .items{display:flex;flex-wrap:wrap;gap:6px;}
-.zone .items span{background:#fff;border-radius:10px;padding:5px 10px;font-weight:700;font-size:1.15rem;box-shadow:var(--shadow);text-transform:uppercase;}
+.zone .items{display:flex;flex-wrap:wrap;gap:8px;}
+.zone .items span{background:#fff;border-radius:10px;padding:6px 10px;box-shadow:var(--shadow);display:flex;align-items:center;gap:4px;}
+.zone .items span .word-block .w-upper{font-size:.9rem;}
+.zone .items span .word-block .w-script{font-size:1.1rem;}
 
 /* finish */
 .finish{text-align:center;padding:30px 16px;}
@@ -570,6 +586,11 @@ function renderSegs(segs, currentDigId){
     return `<span class="${cls}">${t}</span>`;
   }).join('');
 }
+/* tout mot/phrase à LIRE s'affiche en deux lignes : capitales, puis script cursif.
+   (les instructions et le reste de l'interface restent en majuscules seules, via le CSS global) */
+function wordBlock(html){
+  return `<span class="word-block"><span class="w-upper">${html}</span><span class="w-script">${html}</span></span>`;
+}
 /* segmente une phrase mot par mot via le dictionnaire WORD_SEGS ;
    la ponctuation/les espaces passent tels quels. */
 function renderSentence(sentence, currentDigId){
@@ -724,9 +745,7 @@ function openInfo(){
       <h3>Comment ça marche ?</h3>
       <p>
         <span class="dot dot-g" style="width:10px;height:10px;display:inline-block;border-radius:50%;background:var(--green)"></span>
-        <b>Vert foncé</b> = le son du jour<br>
-        <span class="dot" style="width:10px;height:10px;display:inline-block;border-radius:50%;background:var(--other)"></span>
-        <b>Vert clair</b> = un autre son<br>
+        <b>Vert</b> = un digramme (deux ou trois lettres qui font un seul son)<br>
         <span class="dot" style="width:10px;height:10px;display:inline-block;border-radius:50%;background:var(--silent)"></span>
         <b>Gris</b> = lettre muette<br>
         <span class="dot" style="width:10px;height:10px;display:inline-block;border-radius:50%;background:var(--ink)"></span>
@@ -879,7 +898,7 @@ function finishScreen(container, dig, game, statsText){
 function legendBar(){
   const d = document.createElement('div');
   d.className = 'legend';
-  d.innerHTML = `<span><span class="dot dot-g"></span>son du jour</span><span><span class="dot dot-b"></span>autre son</span><span><span class="dot dot-s"></span>muette</span><span><span class="dot dot-n"></span>normale</span>`;
+  d.innerHTML = `<span><span class="dot dot-g"></span>digramme</span><span><span class="dot dot-s"></span>muette</span><span><span class="dot dot-n"></span>normale</span>`;
   return d;
 }
 
@@ -897,7 +916,7 @@ function runDecouverte(container, dig){
   dig.words.forEach(w=>{
     const c = document.createElement('button');
     c.className = 'wordcard';
-    c.innerHTML = `<span class="we">${w.emoji}</span><span class="wordtext">${renderSegs(w.segs, dig.id)}</span><div class="speaker">🔊 écouter</div>`;
+    c.innerHTML = `<span class="we">${w.emoji}</span>${wordBlock(renderSegs(w.segs, dig.id))}<div class="speaker">🔊 écouter</div>`;
     c.addEventListener('click', ()=>speak(wordText(w)));
     grid.appendChild(c);
   });
@@ -937,7 +956,7 @@ function runMemory(container, dig){
   let cards = [];
   chosen.forEach((w,i)=>{
     cards.push({pair:i, kind:'emoji', content:w.emoji});
-    cards.push({pair:i, kind:'word', content:renderSegs(w.segs, dig.id), text:wordText(w)});
+    cards.push({pair:i, kind:'word', content:wordBlock(renderSegs(w.segs, dig.id)), text:wordText(w)});
   });
   cards = shuffle(cards);
 
@@ -1011,7 +1030,7 @@ function runQuiz(container, dig, game){
     options.forEach(opt=>{
       const b = document.createElement('button');
       b.className = 'optbtn';
-      b.innerHTML = renderSegs(opt.segs, dig.id);
+      b.innerHTML = wordBlock(renderSegs(opt.segs, dig.id));
       b.addEventListener('click', ()=>{
         speak(opt.text);
         if(opt.text === wordText(target)){
@@ -1056,7 +1075,7 @@ function runIntrus(container, dig, game){
     items.forEach(it=>{
       const b = document.createElement('button');
       b.className = 'optbtn';
-      b.innerHTML = renderSegs(it.segs, dig.id);
+      b.innerHTML = wordBlock(renderSegs(it.segs, dig.id));
       b.addEventListener('click', ()=>{
         speak(it.t);
         if(it.ok){
@@ -1102,11 +1121,12 @@ function runTrous(container, dig, game){
 
     const bw = document.createElement('div');
     bw.className = 'blankword';
-    bw.innerHTML = w.segs.map(([t,ty])=>{
+    const blankHtml = w.segs.map(([t,ty])=>{
       if(ty===dig.id) return `<span class="blank">${t}</span>`;
       const cls = ty==='s' ? 'seg-s' : ty==='n' ? 'seg-n' : 'seg-b';
       return `<span class="${cls}">${t}</span>`;
     }).join('');
+    bw.innerHTML = wordBlock(blankHtml);
     container.appendChild(bw);
 
     const distractors = sample(otherTargets.filter(t=>t!==correct), 2);
@@ -1121,7 +1141,7 @@ function runTrous(container, dig, game){
       b.addEventListener('click', ()=>{
         if(opt===correct){
           b.classList.add('correct');
-          bw.innerHTML = renderSegs(w.segs, dig.id);
+          bw.innerHTML = wordBlock(renderSegs(w.segs, dig.id));
           speak(wordText(w));
           score++;
           setTimeout(()=>{ idx++; step(); }, 700);
@@ -1174,7 +1194,7 @@ function runTri(container, dig, game){
       if(it.placed) return;
       const chip = document.createElement('button');
       chip.className = 'chip' + (selected===it ? ' sel' : '');
-      chip.innerHTML = renderSegs(it.segs, dig.id);
+      chip.innerHTML = wordBlock(renderSegs(it.segs, dig.id));
       chip.addEventListener('click', ()=>{
         speak(it.t);
         selected = it;
@@ -1191,7 +1211,7 @@ function runTri(container, dig, game){
     if(selected.ok === zoneOk){
       selected.placed = true;
       const s = document.createElement('span');
-      s.innerHTML = '✅ ' + renderSegs(selected.segs, dig.id);
+      s.innerHTML = '✅ ' + wordBlock(renderSegs(selected.segs, dig.id));
       zoneEl.appendChild(s);
       placed++;
       selected = null;
