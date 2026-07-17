@@ -5,11 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#ff8fa3">
 <title>Zigo et les Sons Rigolos</title>
-<link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon-192.png" type="image/png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Sons Rigolos">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Caveat:wght@600;700&display=swap');
@@ -1230,12 +1227,19 @@ function runTri(container, dig, game){
 }
 
 /* =========================================================
-   PWA — Service Worker
+   Ceci n'est pas une appli installable : on nettoie tout Service Worker
+   / cache posé par une ancienne version, pour éviter d'afficher du
+   contenu périmé (voir historique).
 ========================================================= */
 if('serviceWorker' in navigator){
-  window.addEventListener('load', ()=>{
-    navigator.serviceWorker.register('sw.js').catch(()=>{});
-  });
+  navigator.serviceWorker.getRegistrations().then(regs=>{
+    regs.forEach(r=>r.unregister());
+  }).catch(()=>{});
+}
+if(window.caches && caches.keys){
+  caches.keys().then(keys=>{
+    keys.forEach(k=>caches.delete(k));
+  }).catch(()=>{});
 }
 
 /* =========================================================
