@@ -12,11 +12,11 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Sons Rigolos">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Caveat:wght@600;700&display=swap');
 
 :root{
-  --green:#1f9d55;
-  --other:#2f6fed;
+  --green:#0e7a3d;
+  --other:#4fbd76;
   --silent:#b7b2ad;
   --ink:#2b2620;
   --bg1:#fff6e9;
@@ -38,6 +38,7 @@ body{
   color:var(--ink);
   min-height:100%;
   overflow-x:hidden;
+  text-transform:uppercase;
 }
 #app{max-width:900px;margin:0 auto;padding-bottom:40px;min-height:100vh;position:relative;}
 button{font-family:inherit;}
@@ -169,8 +170,10 @@ h1,h2,h3{margin:0;}
 .btn.ghost{background:#fff;color:var(--ink);box-shadow:var(--shadow);}
 
 /* sentences */
-.sentcard{background:var(--card);border-radius:18px;padding:18px 20px;margin-bottom:14px;box-shadow:var(--shadow);cursor:pointer;font-size:1.7rem;font-weight:800;line-height:1.7;letter-spacing:.5px;text-transform:uppercase;}
+.sentcard{background:var(--card);border-radius:18px;padding:18px 20px;margin-bottom:14px;box-shadow:var(--shadow);cursor:pointer;}
 .sentcard:active{transform:translateY(3px);}
+.sent-upper{font-family:'Baloo 2',sans-serif;font-size:1.6rem;font-weight:800;line-height:1.6;letter-spacing:.5px;text-transform:uppercase;}
+.sent-script{font-family:'Caveat',cursive;font-size:2.3rem;font-weight:700;line-height:1.3;text-transform:none !important;margin-top:8px;padding-top:8px;border-top:2px dashed #e7d3b0;}
 
 /* memory */
 .memgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;perspective:600px;}
@@ -721,9 +724,9 @@ function openInfo(){
       <h3>Comment ça marche ?</h3>
       <p>
         <span class="dot dot-g" style="width:10px;height:10px;display:inline-block;border-radius:50%;background:var(--green)"></span>
-        <b>Vert</b> = le son du jour<br>
+        <b>Vert foncé</b> = le son du jour<br>
         <span class="dot" style="width:10px;height:10px;display:inline-block;border-radius:50%;background:var(--other)"></span>
-        <b>Bleu</b> = un autre son<br>
+        <b>Vert clair</b> = un autre son<br>
         <span class="dot" style="width:10px;height:10px;display:inline-block;border-radius:50%;background:var(--silent)"></span>
         <b>Gris</b> = lettre muette<br>
         <span class="dot" style="width:10px;height:10px;display:inline-block;border-radius:50%;background:var(--ink)"></span>
@@ -912,9 +915,10 @@ function runPhrases(container, dig){
   container.innerHTML = '';
   container.appendChild(legendBar());
   dig.sentences.forEach(s=>{
+    const html = renderSentence(s, dig.id);
     const c = document.createElement('div');
     c.className = 'sentcard';
-    c.innerHTML = renderSentence(s, dig.id);
+    c.innerHTML = `<div class="sent-upper">${html}</div><div class="sent-script">${html}</div>`;
     c.addEventListener('click', ()=>speak(s));
     container.appendChild(c);
   });
