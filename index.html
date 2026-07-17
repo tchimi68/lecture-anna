@@ -38,7 +38,7 @@ body{
   text-transform:uppercase;
 }
 #app{max-width:900px;margin:0 auto;padding-bottom:40px;min-height:100vh;position:relative;}
-button{font-family:inherit;}
+button{font-family:inherit;text-transform:inherit;}
 h1,h2,h3{margin:0;}
 
 /* ---------- header ---------- */
@@ -156,7 +156,7 @@ h1,h2,h3{margin:0;}
 .seg-n{color:var(--ink);}
 .speaker{font-size:.85rem;opacity:.55;margin-top:6px;}
 
-/* tout mot à lire = capitales + script cursif, empilés */
+/* tout mot à lire = capitales + script (lettres bâton minuscules), empilés */
 .word-block{display:flex;flex-direction:column;align-items:center;gap:3px;line-height:1.15;}
 .word-block .w-upper{font-family:'Baloo 2',sans-serif;font-weight:800;letter-spacing:.5px;text-transform:uppercase;}
 .word-block .w-script{font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;font-weight:700;text-transform:none;}
@@ -665,7 +665,7 @@ function renderSegs(segs, currentDigId){
     return `<span class="${cls}">${t}</span>`;
   }).join('');
 }
-/* tout mot/phrase à LIRE s'affiche en deux lignes : capitales, puis script cursif.
+/* tout mot/phrase à LIRE s'affiche en deux lignes : capitales, puis script.
    (les instructions et le reste de l'interface restent en majuscules seules, via le CSS global) */
 function wordBlock(html){
   return `<span class="word-block"><span class="w-upper">${html}</span><span class="w-script">${html}</span></span>`;
