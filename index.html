@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-title" content="Sons Rigolos">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Caveat:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap');
 
 :root{
   --green:#1f9d55;
@@ -159,7 +159,7 @@ h1,h2,h3{margin:0;}
 /* tout mot à lire = capitales + script cursif, empilés */
 .word-block{display:flex;flex-direction:column;align-items:center;gap:3px;line-height:1.15;}
 .word-block .w-upper{font-family:'Baloo 2',sans-serif;font-weight:800;letter-spacing:.5px;text-transform:uppercase;}
-.word-block .w-script{font-family:'Caveat',cursive;font-weight:700;text-transform:none;}
+.word-block .w-script{font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;font-weight:700;text-transform:none;}
 .wordcard .word-block .w-upper{font-size:1.8rem;}
 .wordcard .word-block .w-script{font-size:2.3rem;}
 
@@ -176,7 +176,7 @@ h1,h2,h3{margin:0;}
 .sentcard{background:var(--card);border-radius:18px;padding:18px 20px;margin-bottom:14px;box-shadow:var(--shadow);cursor:pointer;}
 .sentcard:active{transform:translateY(3px);}
 .sent-upper{font-family:'Baloo 2',sans-serif;font-size:1.6rem;font-weight:800;line-height:1.6;letter-spacing:.5px;text-transform:uppercase;}
-.sent-script{font-family:'Caveat',cursive;font-size:2.3rem;font-weight:700;line-height:1.3;text-transform:none !important;margin-top:8px;padding-top:8px;border-top:2px dashed #e7d3b0;}
+.sent-script{font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;font-size:2rem;font-weight:700;line-height:1.3;text-transform:none !important;margin-top:8px;padding-top:8px;border-top:2px dashed #e7d3b0;}
 
 /* memory */
 .memgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;perspective:600px;}
@@ -275,6 +275,11 @@ const DIGRAMMES = [
       {emoji:'🦉', segs:[['h','n'],['i','n'],['b','n'],['ou','t']]},
       {emoji:'🦘', segs:[['k','n'],['an','an-en'],['g','n'],['ou','t'],['r','n'],['ou','t']]},
       {emoji:'🦵', segs:[['g','n'],['e','n'],['n','n'],['ou','t']]},
+      {emoji:'🐭', segs:[['s','n'],['ou','t'],['r','n'],['i','n'],['s','s']], hide:true},
+      {emoji:'💍', segs:[['b','n'],['i','n'],['j','n'],['ou','t']], hide:true},
+      {emoji:'🪨', segs:[['c','n'],['a','n'],['ill','ill'],['ou','t']], hide:true},
+      {emoji:'🧸', segs:[['d','n'],['ou','t'],['d','n'],['ou','t']], hide:true},
+      {emoji:'🐔', segs:[['p','n'],['ou','t'],['l','n'],['e','s']], hide:true},
     ],
     sentences:["Le loup mange le mouton.","Le hibou dort dans le trou.","Le kangourou saute très haut."]
   },
@@ -286,6 +291,11 @@ const DIGRAMMES = [
       {emoji:'🐉', segs:[['d','n'],['r','n'],['a','n'],['g','n'],['on','t']]},
       {emoji:'🐟', segs:[['p','n'],['oi','oi'],['ss','n'],['on','t']]},
       {emoji:'🍋', segs:[['c','n'],['i','n'],['t','n'],['r','n'],['on','t']]},
+      {emoji:'👖', segs:[['p','n'],['an','an-en'],['t','n'],['a','n'],['l','n'],['on','t']], hide:true},
+      {emoji:'🔘', segs:[['b','n'],['ou','ou'],['t','n'],['on','t']], hide:true},
+      {emoji:'✈️', segs:[['a','n'],['v','n'],['i','n'],['on','t']], hide:true},
+      {emoji:'✏️', segs:[['c','n'],['r','n'],['a','n'],['y','n'],['on','t']], hide:true},
+      {emoji:'🍈', segs:[['m','n'],['e','n'],['l','n'],['on','t']], hide:true},
     ],
     sentences:["Le dragon vole dans le ciel.","J'aime les bonbons ronds.","Le poisson nage dans l'eau."]
   },
@@ -297,6 +307,11 @@ const DIGRAMMES = [
       {emoji:'🦷', segs:[['d','n'],['en','t'],['t','s']]},
       {emoji:'💨', segs:[['v','n'],['en','t'],['t','s']]},
       {emoji:'🧒', segs:[['en','t'],['f','n'],['an','t'],['t','s']]},
+      {emoji:'🍊', segs:[['o','n'],['r','n'],['an','t'],['g','n'],['e','s']], hide:true},
+      {emoji:'🧤', segs:[['g','n'],['an','t'],['t','s']], hide:true},
+      {emoji:'🎀', segs:[['r','n'],['u','n'],['b','n'],['an','t']], hide:true},
+      {emoji:'💰', segs:[['a','n'],['r','n'],['g','n'],['en','t'],['t','s']], hide:true},
+      {emoji:'🐍', segs:[['s','n'],['e','n'],['r','n'],['p','n'],['en','t'],['t','s']], hide:true},
     ],
     sentences:["L'éléphant est très grand.","Le vent souffle très fort.","L'enfant joue dans le jardin."]
   },
@@ -308,6 +323,11 @@ const DIGRAMMES = [
       {emoji:'✋', segs:[['m','n'],['ain','t']]},
       {emoji:'🍞', segs:[['p','n'],['ain','t']]},
       {emoji:'🚂', segs:[['t','n'],['r','n'],['ain','t']]},
+      {emoji:'🦈', segs:[['r','n'],['e','n'],['qu','qu'],['in','t']], hide:true},
+      {emoji:'🎨', segs:[['d','n'],['e','n'],['ss','n'],['in','t']], hide:true},
+      {emoji:'🌷', segs:[['j','n'],['a','n'],['r','n'],['d','n'],['in','t']], hide:true},
+      {emoji:'🐧', segs:[['p','n'],['in','t'],['g','n'],['ou','ou'],['in','t']], hide:true},
+      {emoji:'🧝', segs:[['l','n'],['u','n'],['t','n'],['in','t']], hide:true},
     ],
     sentences:["Le lapin mange une carotte.","Le train arrive à la gare.","Papa achète du pain chaud."]
   },
@@ -319,6 +339,11 @@ const DIGRAMMES = [
       {emoji:'🍐', segs:[['p','n'],['oi','t'],['r','n'],['e','s']]},
       {emoji:'🐦', segs:[['oi','t'],['s','n'],['eau','au-eau']]},
       {emoji:'🪞', segs:[['m','n'],['i','n'],['r','n'],['oi','t'],['r','n']]},
+      {emoji:'📦', segs:[['b','n'],['oi','t'],['t','n'],['e','s']], hide:true},
+      {emoji:'🌰', segs:[['n','n'],['oi','t'],['x','s']], hide:true},
+      {emoji:'🥶', segs:[['f','n'],['r','n'],['oi','t'],['d','s']], hide:true},
+      {emoji:'3️⃣', segs:[['t','n'],['r','n'],['oi','t'],['s','s']], hide:true},
+      {emoji:'🚗', segs:[['v','n'],['oi','t'],['t','n'],['u','n'],['r','n'],['e','s']], hide:true},
     ],
     sentences:["Le roi porte une couronne.","L'oiseau chante le matin.","Le roi se regarde dans le miroir."]
   },
@@ -330,6 +355,11 @@ const DIGRAMMES = [
       {emoji:'🥚', segs:[['œu','t'],['f','n']]},
       {emoji:'🔵', segs:[['b','n'],['l','n'],['eu','t']]},
       {emoji:'🎀', segs:[['n','n'],['œu','t'],['d','s']]},
+      {emoji:'🌸', segs:[['f','n'],['l','n'],['eu','t'],['r','n']], hide:true},
+      {emoji:'🛞', segs:[['p','n'],['n','n'],['eu','t']], hide:true},
+      {emoji:'💃', segs:[['d','n'],['an','an-en'],['s','n'],['eu','t'],['s','n'],['e','s']], hide:true},
+      {emoji:'👨‍⚕️', segs:[['d','n'],['o','n'],['c','n'],['t','n'],['eu','t'],['r','n']], hide:true},
+      {emoji:'🎨', segs:[['c','n'],['ou','ou'],['l','n'],['eu','t'],['r','n']], hide:true},
     ],
     sentences:["Le feu est très chaud.","J'aime jouer à ce jeu.","L'œuf est dans le nid."]
   },
@@ -341,6 +371,11 @@ const DIGRAMMES = [
       {emoji:'⛵', segs:[['b','n'],['a','n'],['t','n'],['eau','t']]},
       {emoji:'🚗', segs:[['au','t'],['t','n'],['o','n']]},
       {emoji:'🐂', segs:[['t','n'],['au','t'],['r','n'],['eau','t']]},
+      {emoji:'💧', segs:[['eau','t']], hide:true},
+      {emoji:'🪣', segs:[['s','n'],['eau','t']], hide:true},
+      {emoji:'🦗', segs:[['s','n'],['au','t'],['t','n'],['e','n'],['r','n'],['e','n'],['ll','n'],['e','s']], hide:true},
+      {emoji:'🤷', segs:[['é','n'],['p','n'],['au','t'],['l','n'],['e','s']], hide:true},
+      {emoji:'🎁', segs:[['c','n'],['a','n'],['d','n'],['eau','t']], hide:true},
     ],
     sentences:["Le bateau flotte sur l'eau.","Le gâteau est délicieux.","Papa met son chapeau."]
   },
@@ -352,6 +387,11 @@ const DIGRAMMES = [
       {emoji:'❄️', segs:[['n','n'],['ei','t'],['g','n'],['e','s']]},
       {emoji:'🐋', segs:[['b','n'],['a','n'],['l','n'],['ei','t'],['n','n'],['e','s']]},
       {emoji:'🏠', segs:[['m','n'],['ai','t'],['s','n'],['on','on']]},
+      {emoji:'🧹', segs:[['b','n'],['a','n'],['l','n'],['ai','t']], hide:true},
+      {emoji:'🦅', segs:[['ai','t'],['g','n'],['l','n'],['e','s']], hide:true},
+      {emoji:'1️⃣3️⃣', segs:[['t','n'],['r','n'],['ei','t'],['z','n'],['e','s']], hide:true},
+      {emoji:'👸', segs:[['r','n'],['ei','t'],['n','n'],['e','s']], hide:true},
+      {emoji:'🧶', segs:[['l','n'],['ai','t'],['n','n'],['e','s']], hide:true},
     ],
     sentences:["La fraise est rouge et sucrée.","Il neige en hiver.","Le lait est dans le verre."]
   },
@@ -363,6 +403,11 @@ const DIGRAMMES = [
       {emoji:'🐴', segs:[['ch','t'],['e','n'],['v','n'],['a','n'],['l','n']]},
       {emoji:'🐄', segs:[['v','n'],['a','n'],['ch','t'],['e','s']]},
       {emoji:'👟', segs:[['ch','t'],['au','au-eau'],['ss','n'],['u','n'],['r','n'],['e','s']]},
+      {emoji:'💇', segs:[['ch','t'],['e','n'],['v','n'],['eu','eu'],['x','s']], hide:true},
+      {emoji:'🍫', segs:[['ch','t'],['o','n'],['c','n'],['o','n'],['l','n'],['a','n'],['t','s']], hide:true},
+      {emoji:'🏰', segs:[['ch','t'],['â','n'],['t','n'],['eau','au-eau']], hide:true},
+      {emoji:'🪑', segs:[['ch','t'],['ai','ai-ei'],['s','n'],['e','s']], hide:true},
+      {emoji:'🎩', segs:[['ch','t'],['a','n'],['p','n'],['eau','au-eau']], hide:true},
     ],
     sentences:["Le chat dort sur le tapis.","Le chien court dans le jardin.","La vache mange de l'herbe."]
   },
@@ -374,6 +419,11 @@ const DIGRAMMES = [
       {emoji:'🐬', segs:[['d','n'],['au','au-eau'],['ph','t'],['in','in']]},
       {emoji:'💊', segs:[['ph','t'],['a','n'],['r','n'],['m','n'],['a','n'],['c','n'],['ie','n']]},
       {emoji:'☎️', segs:[['t','n'],['é','n'],['l','n'],['é','n'],['ph','t'],['o','n'],['n','n'],['e','s']]},
+      {emoji:'🦭', segs:[['ph','t'],['o','n'],['qu','qu'],['e','s']], hide:true},
+      {emoji:'🔤', segs:[['a','n'],['l','n'],['ph','t'],['a','n'],['b','n'],['e','n'],['t','s']], hide:true},
+      {emoji:'🔮', segs:[['s','n'],['ph','t'],['è','n'],['r','n'],['e','s']], hide:true},
+      {emoji:'📸', segs:[['ph','t'],['o','n'],['t','n'],['o','n'],['g','n'],['r','n'],['a','n'],['ph','t'],['e','s']], hide:true},
+      {emoji:'💊', segs:[['ph','t'],['a','n'],['r','n'],['m','n'],['a','n'],['c','n'],['ien','ien']], hide:true},
     ],
     sentences:["L'éléphant a une longue trompe.","Papa prend une photo.","Le dauphin saute dans l'eau."]
   },
@@ -385,6 +435,11 @@ const DIGRAMMES = [
       {emoji:'🍄', segs:[['ch','ch'],['am','n'],['p','n'],['i','n'],['gn','t'],['on','on']]},
       {emoji:'🦢', segs:[['c','n'],['y','n'],['gn','t'],['e','s']]},
       {emoji:'🍇', segs:[['v','n'],['i','n'],['gn','t'],['e','s']]},
+      {emoji:'🐑', segs:[['a','n'],['gn','t'],['eau','au-eau']], hide:true},
+      {emoji:'🌾', segs:[['c','n'],['am','n'],['p','n'],['a','n'],['gn','t'],['e','s']], hide:true},
+      {emoji:'🛁', segs:[['b','n'],['ai','ai-ei'],['gn','t'],['oi','oi'],['r','n'],['e','s']], hide:true},
+      {emoji:'📏', segs:[['l','n'],['i','n'],['gn','t'],['e','s']], hide:true},
+      {emoji:'🤟', segs:[['s','n'],['i','n'],['gn','t'],['e','s']], hide:true},
     ],
     sentences:["La montagne est très haute.","L'araignée tisse sa toile.","Le raisin pousse sur la vigne."]
   },
@@ -396,6 +451,11 @@ const DIGRAMMES = [
       {emoji:'👧', segs:[['f','n'],['ill','t'],['e','s']]},
       {emoji:'🐸', segs:[['g','n'],['r','n'],['e','n'],['n','n'],['ou','ou'],['ill','t'],['e','s']]},
       {emoji:'👂', segs:[['o','n'],['r','n'],['e','n'],['ill','t'],['e','s']]},
+      {emoji:'⚪', segs:[['b','n'],['ill','t'],['e','s']], hide:true},
+      {emoji:'🐝', segs:[['a','n'],['b','n'],['e','n'],['ill','t'],['e','s']], hide:true},
+      {emoji:'👵', segs:[['v','n'],['i','n'],['e','n'],['ill','t'],['e','s']], hide:true},
+      {emoji:'🐚', segs:[['c','n'],['o','n'],['qu','qu'],['ill','t'],['a','n'],['g','n'],['e','s']], hide:true},
+      {emoji:'💄', segs:[['m','n'],['a','n'],['qu','qu'],['ill','t'],['a','n'],['g','n'],['e','s']], hide:true},
     ],
     sentences:["Le papillon vole de fleur en fleur.","La fille joue avec sa famille.","La grenouille saute dans l'étang."]
   },
@@ -407,6 +467,11 @@ const DIGRAMMES = [
       {emoji:'🦟', segs:[['m','n'],['ou','ou'],['s','n'],['t','n'],['i','n'],['qu','t'],['e','s']]},
       {emoji:'🦜', segs:[['p','n'],['e','n'],['r','n'],['r','n'],['o','n'],['qu','t'],['e','n'],['t','s']]},
       {emoji:'🎳', segs:[['qu','t'],['ill','ill'],['e','s']]},
+      {emoji:'💐', segs:[['b','n'],['ou','ou'],['qu','t'],['e','n'],['t','s']], hide:true},
+      {emoji:'🧢', segs:[['c','n'],['a','n'],['s','n'],['qu','t'],['e','n'],['tt','n'],['e','s']], hide:true},
+      {emoji:'🎾', segs:[['r','n'],['a','n'],['qu','t'],['e','n'],['tt','n'],['e','s']], hide:true},
+      {emoji:'🎵', segs:[['m','n'],['u','n'],['s','n'],['i','n'],['qu','t'],['e','s']], hide:true},
+      {emoji:'📦', segs:[['p','n'],['a','n'],['qu','t'],['e','n'],['t','s']], hide:true},
     ],
     sentences:["Le moustique pique fort.","Le perroquet répète les mots.","Nous sommes quatre amis."]
   },
@@ -418,6 +483,11 @@ const DIGRAMMES = [
       {emoji:'🥖', segs:[['b','n'],['a','n'],['gu','t'],['e','n'],['tt','n'],['e','s']]},
       {emoji:'👅', segs:[['l','n'],['an','an-en'],['gu','t'],['e','s']]},
       {emoji:'🌸', segs:[['m','n'],['u','n'],['gu','t'],['e','n'],['t','s']]},
+      {emoji:'😴', segs:[['f','n'],['a','n'],['t','n'],['i','n'],['gu','t'],['e','s']], hide:true},
+      {emoji:'🐝', segs:[['gu','t'],['ê','n'],['p','n'],['e','s']], hide:true},
+      {emoji:'🎫', segs:[['gu','t'],['i','n'],['ch','ch'],['e','n'],['t','s']], hide:true},
+      {emoji:'🎭', segs:[['d','n'],['é','n'],['gu','t'],['i','n'],['s','n'],['e','n'],['m','n'],['en','an-en'],['t','s']], hide:true},
+      {emoji:'🎊', segs:[['gu','t'],['i','n'],['r','n'],['l','n'],['an','an-en'],['d','n'],['e','s']], hide:true},
     ],
     sentences:["Le guépard court très vite.","La baguette est croustillante.","Le chat sort sa langue."]
   },
@@ -428,6 +498,12 @@ const DIGRAMMES = [
       {emoji:'🐽', segs:[['g','n'],['r','n'],['oin','t']]},
       {emoji:'👊', segs:[['p','n'],['oin','t'],['g','s']]},
       {emoji:'🔴', segs:[['p','n'],['oin','t'],['t','s']]},
+      {emoji:'📐', segs:[['c','n'],['oin','t']], hide:true},
+      {emoji:'➖', segs:[['m','n'],['oin','t'],['s','s']], hide:true},
+      {emoji:'🔺', segs:[['p','n'],['oin','t'],['t','n'],['u','n']], hide:true},
+      {emoji:'🔭', segs:[['l','n'],['oin','t']], hide:true},
+      {emoji:'🩹', segs:[['s','n'],['oin','t']], hide:true},
+      {emoji:'👁️', segs:[['t','n'],['é','n'],['m','n'],['oin','t']], hide:true},
     ],
     sentences:["Il fait très chaud dans ce coin.","Le cochon a un groin tout rose.","Elle donne un petit coup de poing."]
   },
@@ -438,6 +514,12 @@ const DIGRAMMES = [
       {emoji:'👮', segs:[['g','n'],['a','n'],['r','n'],['d','n'],['ien','t']]},
       {emoji:'🎺', segs:[['m','n'],['u','n'],['s','n'],['i','n'],['c','n'],['ien','t']]},
       {emoji:'💊', segs:[['ph','ph'],['a','n'],['r','n'],['m','n'],['a','n'],['c','n'],['ien','t']]},
+      {emoji:'🔗', segs:[['l','n'],['ien','t']], hide:true},
+      {emoji:'👍', segs:[['b','n'],['ien','t']], hide:true},
+      {emoji:'🚫', segs:[['r','n'],['ien','t']], hide:true},
+      {emoji:'🏛️', segs:[['an','an-en'],['c','n'],['ien','t']], hide:true},
+      {emoji:'🎭', segs:[['c','n'],['o','n'],['m','n'],['é','n'],['d','n'],['ien','t']], hide:true},
+      {emoji:'🎒', segs:[['c','n'],['o','n'],['ll','n'],['é','n'],['g','n'],['ien','t']], hide:true},
     ],
     sentences:["Le chien aboie très fort.","Le gardien surveille la porte.","Le musicien joue de la trompette."]
   },
@@ -913,8 +995,14 @@ function runDecouverte(container, dig){
   dig.words.forEach(w=>{
     const c = document.createElement('button');
     c.className = 'wordcard';
-    c.innerHTML = `<span class="we">${w.emoji}</span>${wordBlock(renderSegs(w.segs, dig.id))}<div class="speaker">🔊 écouter</div>`;
-    c.addEventListener('click', ()=>speak(wordText(w)));
+    c.innerHTML = `<span class="we">${w.hide ? '❓' : w.emoji}</span>${wordBlock(renderSegs(w.segs, dig.id))}<div class="speaker">🔊 écouter</div>`;
+    c.addEventListener('click', ()=>{
+      if(w.hide){
+        const we = c.querySelector('.we');
+        if(we.textContent==='❓') we.textContent = w.emoji;
+      }
+      speak(wordText(w));
+    });
     grid.appendChild(c);
   });
   container.appendChild(grid);
