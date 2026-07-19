@@ -247,6 +247,8 @@ h1,h2,h3{margin:0;}
 .assoc-item .word-block .w-upper{font-size:1.05rem;}
 .assoc-item .word-block .w-script{font-size:1.35rem;}
 .assoc-emoji{font-size:3.6rem;text-align:center;}
+.assoc-item.assoc-solo .word-block .w-upper{font-size:1.5rem;}
+.assoc-item.assoc-solo .word-block .w-script{font-size:1.9rem;}
 .assoc-item.sel{outline:3px solid var(--accent);}
 .assoc-item.match{background:#c8f7c5;}
 .assoc-item.wrong{background:#ffd0d0;animation:shake .4s;}
@@ -664,6 +666,7 @@ const GAMES = [
   {id:'trous',      label:'Mot à trou', icon:'✏️'},
   {id:'tri',        label:'Le tri',     icon:'🧺'},
   {id:'association',label:'Association',icon:'🧩'},
+  {id:'assoscript', label:'Maj / Script', icon:'🔠'},
 ];
 
 const ENCOURAGE = ["Bravo !","Super !","Génial !","Magnifique !","Trop fort !","Tu es un champion !","Excellent !","Continue comme ça !"];
@@ -1015,6 +1018,7 @@ function renderGame(){
     trous: runTrous,
     tri: runTri,
     association: runAssociation,
+    assoscript: runAssociationScript,
   };
   runners[game.id](screen, dig, game);
 }
@@ -1379,47 +1383,47 @@ function runTri(container, dig, game){
   zones.querySelector('#zNo').addEventListener('click', ()=>place(false));
 }
 
-/* ---------- 8. Association ---------- */
-function runAssociation(container, dig, game){
+/* ---------- 8. Association (base réutilisable à 2 colonnes) ---------- */
+function runAssociationBase(container, dig, game, headText, leftHTML, rightHTML, finishText, leftExtraClass, rightExtraClass){
   container.innerHTML = '';
   const head = document.createElement('div');
   head.className = 'sonhead';
-  head.innerHTML = `<p class="center" style="font-weight:700">Associe chaque mot à son image</p>`;
+  head.innerHTML = `<p class="center" style="font-weight:700">${headText}</p>`;
   container.appendChild(head);
 
   const n = Math.min(6, dig.words.length);
   const chosen = sample(dig.words, n);
-  const wordItems = shuffle(chosen.map((w,i)=>({pair:i, w})));
-  const picItems = shuffle(chosen.map((w,i)=>({pair:i, w})));
+  const leftItems = shuffle(chosen.map((w,i)=>({pair:i, w})));
+  const rightItems = shuffle(chosen.map((w,i)=>({pair:i, w})));
 
   const cols = document.createElement('div');
   cols.className = 'assoc-cols';
-  const colWords = document.createElement('div');
-  colWords.className = 'assoc-col';
-  const colPics = document.createElement('div');
-  colPics.className = 'assoc-col';
-  cols.appendChild(colWords);
-  cols.appendChild(colPics);
+  const colLeft = document.createElement('div');
+  colLeft.className = 'assoc-col';
+  const colRight = document.createElement('div');
+  colRight.className = 'assoc-col';
+  cols.appendChild(colLeft);
+  cols.appendChild(colRight);
   container.appendChild(cols);
 
-  let selWord = null, selPic = null, lock = false, matched = 0;
+  let selLeft = null, selRight = null, lock = false, matched = 0;
 
   function tryMatch(){
-    if(!selWord || !selPic || lock) return;
+    if(!selLeft || !selRight || lock) return;
     lock = true;
-    const w1 = selWord.el, w2 = selPic.el;
-    if(selWord.item.pair === selPic.item.pair){
+    const w1 = selLeft.el, w2 = selRight.el;
+    if(selLeft.item.pair === selRight.item.pair){
       w1.classList.remove('sel'); w2.classList.remove('sel');
       w1.classList.add('match'); w2.classList.add('match');
       speak('Bravo !');
       const r1 = w1.getBoundingClientRect(), r2 = w2.getBoundingClientRect();
       giftExplosion((r1.left+r1.right+r2.left+r2.right)/4, (r1.top+r1.bottom+r2.top+r2.bottom)/4);
-      selWord = null; selPic = null;
+      selLeft = null; selRight = null;
       setTimeout(()=>{
         w1.remove(); w2.remove();
         matched++;
         lock = false;
-        if(matched===n) finishScreen(container, dig, game, "Toutes les paires associées !");
+        if(matched===n) finishScreen(container, dig, game, finishText);
       }, 700);
     } else {
       buzzSound();
@@ -1429,7 +1433,7 @@ function runAssociation(container, dig, game){
       cross.textContent = '❌';
       document.body.appendChild(cross);
       setTimeout(()=>cross.remove(), 550);
-      selWord = null; selPic = null;
+      selLeft = null; selRight = null;
       setTimeout(()=>{
         w1.classList.remove('wrong','sel'); w2.classList.remove('wrong','sel');
         lock = false;
@@ -1437,35 +1441,58 @@ function runAssociation(container, dig, game){
     }
   }
 
-  wordItems.forEach(item=>{
+  leftItems.forEach(item=>{
     const b = document.createElement('button');
-    b.className = 'assoc-item';
-    b.innerHTML = wordBlock(renderSegs(item.w.segs, dig.id));
+    b.className = 'assoc-item' + (leftExtraClass ? ' '+leftExtraClass : '');
+    b.innerHTML = leftHTML(item.w, dig);
     b.addEventListener('click', ()=>{
       if(lock || !b.isConnected) return;
-      if(selWord && selWord.el===b){ b.classList.remove('sel'); selWord=null; return; }
-      if(selWord) selWord.el.classList.remove('sel');
+      if(selLeft && selLeft.el===b){ b.classList.remove('sel'); selLeft=null; return; }
+      if(selLeft) selLeft.el.classList.remove('sel');
       b.classList.add('sel');
-      selWord = {item, el:b};
+      selLeft = {item, el:b};
       tryMatch();
     });
-    colWords.appendChild(b);
+    colLeft.appendChild(b);
   });
 
-  picItems.forEach(item=>{
+  rightItems.forEach(item=>{
     const b = document.createElement('button');
-    b.className = 'assoc-item assoc-emoji';
-    b.textContent = item.w.emoji;
+    b.className = 'assoc-item' + (rightExtraClass ? ' '+rightExtraClass : '');
+    b.innerHTML = rightHTML(item.w, dig);
     b.addEventListener('click', ()=>{
       if(lock || !b.isConnected) return;
-      if(selPic && selPic.el===b){ b.classList.remove('sel'); selPic=null; return; }
-      if(selPic) selPic.el.classList.remove('sel');
+      if(selRight && selRight.el===b){ b.classList.remove('sel'); selRight=null; return; }
+      if(selRight) selRight.el.classList.remove('sel');
       b.classList.add('sel');
-      selPic = {item, el:b};
+      selRight = {item, el:b};
       tryMatch();
     });
-    colPics.appendChild(b);
+    colRight.appendChild(b);
   });
+}
+
+function runAssociation(container, dig, game){
+  runAssociationBase(
+    container, dig, game,
+    'Associe chaque mot à son image',
+    (w,d)=>wordBlock(renderSegs(w.segs, d.id)),
+    (w)=>w.emoji,
+    "Toutes les paires associées !",
+    '', 'assoc-emoji'
+  );
+}
+
+/* ---------- 9. Association Majuscules / Script ---------- */
+function runAssociationScript(container, dig, game){
+  runAssociationBase(
+    container, dig, game,
+    'Associe la MAJUSCULE à son écriture script',
+    (w,d)=>`<span class="word-block"><span class="w-upper">${renderSegs(w.segs, d.id)}</span></span>`,
+    (w,d)=>`<span class="word-block"><span class="w-script">${renderSegs(w.segs, d.id)}</span></span>`,
+    "Toutes les paires associées !",
+    'assoc-solo', 'assoc-solo'
+  );
 }
 
 /* =========================================================
