@@ -242,10 +242,11 @@ h1,h2,h3{margin:0;}
 .assoc-item{
   border:none;border-radius:16px;padding:12px 8px;background:#fff;box-shadow:var(--shadow);
   cursor:pointer;transition:background .15s;
+  min-height:92px;display:flex;align-items:center;justify-content:center;
 }
 .assoc-item .word-block .w-upper{font-size:1.05rem;}
 .assoc-item .word-block .w-script{font-size:1.35rem;}
-.assoc-emoji{font-size:2.4rem;text-align:center;}
+.assoc-emoji{font-size:3.6rem;text-align:center;}
 .assoc-item.sel{outline:3px solid var(--accent);}
 .assoc-item.match{background:#c8f7c5;}
 .assoc-item.wrong{background:#ffd0d0;animation:shake .4s;}
@@ -772,16 +773,17 @@ function totalStars(){
 function totalPossible(){ return DIGRAMMES.length * GAMES.length; }
 
 /* confetti */
-function confetti(n, emojis){
+function confetti(n, emojis, sizeScale){
   n = n || 24;
   emojis = emojis || ['🎉','⭐','🎈','✨','🌟','🎊'];
+  sizeScale = sizeScale || 1;
   for(let i=0;i<n;i++){
     const s = document.createElement('div');
     s.className = 'confetti';
     s.textContent = pick(emojis);
     s.style.left = Math.random()*100+'vw';
     s.style.animationDuration = (2+Math.random()*1.5)+'s';
-    s.style.fontSize = (1+Math.random()*1.2)+'rem';
+    s.style.fontSize = ((1+Math.random()*1.2)*sizeScale)+'rem';
     document.body.appendChild(s);
     setTimeout(()=>s.remove(), 3600);
   }
@@ -1387,7 +1389,7 @@ function runAssociation(container, dig, game){
       w1.classList.remove('sel'); w2.classList.remove('sel');
       w1.classList.add('match'); w2.classList.add('match');
       speak('Bravo !');
-      confetti(14, ['🎁','✨','🎉']);
+      confetti(60, ['🎁','✨','🎉','🎊'], 1.6);
       selWord = null; selPic = null;
       setTimeout(()=>{
         w1.remove(); w2.remove();
@@ -1417,7 +1419,6 @@ function runAssociation(container, dig, game){
     b.innerHTML = wordBlock(renderSegs(item.w.segs, dig.id));
     b.addEventListener('click', ()=>{
       if(lock || !b.isConnected) return;
-      speak(wordText(item.w));
       if(selWord && selWord.el===b){ b.classList.remove('sel'); selWord=null; return; }
       if(selWord) selWord.el.classList.remove('sel');
       b.classList.add('sel');
