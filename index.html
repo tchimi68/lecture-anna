@@ -1375,6 +1375,9 @@ function runTri(container, dig, game){
       const s = document.createElement('span');
       s.innerHTML = '✅ ' + wordBlock(renderSegs(selected.segs, dig.id));
       zoneEl.appendChild(s);
+      const r = s.getBoundingClientRect();
+      burstAt(r.left+r.width/2, r.top+r.height/2, 22, ['🎁','✨','🎉'], 1.2, 2.4);
+      speak('Bravo Nanachou !');
       placed++;
       selected = null;
       renderPool();
