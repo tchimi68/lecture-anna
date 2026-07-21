@@ -1242,6 +1242,8 @@ function runIntrus(container, dig, game){
       b.addEventListener('click', ()=>{
         if(it.ok){
           b.classList.add('correct');
+          fireworks(3);
+          speak('Bravo Nanachou !');
           score++;
           setTimeout(()=>{ idx++; step(); }, 550);
         } else {
