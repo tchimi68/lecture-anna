@@ -814,6 +814,15 @@ function fireworks(bursts){
     }, i*260);
   }
 }
+/* grande croix rouge qui barre l'écran (mauvaise réponse) */
+function showCross(){
+  buzzSound();
+  const cross = document.createElement('div');
+  cross.className = 'assoc-cross';
+  cross.textContent = '❌';
+  document.body.appendChild(cross);
+  setTimeout(()=>cross.remove(), 550);
+}
 
 /* petit son de buzzer (bonne/mauvaise réponse) généré sans fichier audio */
 function buzzSound(){
@@ -960,6 +969,7 @@ function renderHome(){
     t.innerHTML = `<div class="fe">🏆</div><h2>Incroyable !</h2><p>Tu as terminé toute l'aventure des sons avec Zigo !</p>`;
     app.appendChild(t);
     fireworks(7);
+    speak('Bravo Nanachou !');
   }
 
   const foot = document.createElement('footer');
@@ -1038,6 +1048,7 @@ function finishScreen(container, dig, game, statsText){
       </div>
     </div>`;
   fireworks(wasComplete ? 8 : 4);
+  speak('Bravo Nanachou !');
   container.querySelector('#fReplay').addEventListener('click', ()=>renderGame());
   container.querySelector('#fMenu').addEventListener('click', ()=>go('menu',{digId:dig.id}));
   container.querySelector('#fHome').addEventListener('click', ()=>go('home'));
@@ -1064,13 +1075,12 @@ function runDecouverte(container, dig){
   dig.words.forEach(w=>{
     const c = document.createElement('button');
     c.className = 'wordcard';
-    c.innerHTML = `<span class="we">${w.hide ? '❓' : w.emoji}</span>${wordBlock(renderSegs(w.segs, dig.id))}<div class="speaker">🔊 écouter</div>`;
+    c.innerHTML = `<span class="we">${w.hide ? '❓' : w.emoji}</span>${wordBlock(renderSegs(w.segs, dig.id))}<div class="speaker">👀 vérifier</div>`;
     c.addEventListener('click', ()=>{
       if(w.hide){
         const we = c.querySelector('.we');
         if(we.textContent==='❓') we.textContent = w.emoji;
       }
-      speak(wordText(w));
     });
     grid.appendChild(c);
   });
@@ -1092,7 +1102,6 @@ function runPhrases(container, dig){
     const c = document.createElement('div');
     c.className = 'sentcard';
     c.innerHTML = `<div class="sent-upper">${html}</div><div class="sent-script">${html}</div>`;
-    c.addEventListener('click', ()=>speak(s));
     container.appendChild(c);
   });
   const bar = document.createElement('div');
@@ -1186,13 +1195,13 @@ function runQuiz(container, dig, game){
       b.className = 'optbtn';
       b.innerHTML = wordBlock(renderSegs(opt.segs, dig.id));
       b.addEventListener('click', ()=>{
-        speak(opt.text);
         if(opt.text === wordText(target)){
           b.classList.add('correct');
           score++;
           setTimeout(()=>{ idx++; step(); }, 550);
         } else {
           b.classList.add('wrong','shake');
+          showCross();
           setTimeout(()=>b.classList.remove('shake'), 400);
         }
       });
@@ -1231,13 +1240,13 @@ function runIntrus(container, dig, game){
       b.className = 'optbtn';
       b.innerHTML = wordBlock(renderSegs(it.segs, dig.id));
       b.addEventListener('click', ()=>{
-        speak(it.t);
         if(it.ok){
           b.classList.add('correct');
           score++;
           setTimeout(()=>{ idx++; step(); }, 550);
         } else {
           b.classList.add('wrong','shake');
+          showCross();
           setTimeout(()=>b.classList.remove('shake'), 400);
         }
       });
@@ -1296,11 +1305,11 @@ function runTrous(container, dig, game){
         if(opt===correct){
           b.classList.add('correct');
           bw.innerHTML = wordBlock(renderSegs(w.segs, dig.id));
-          speak(wordText(w));
           score++;
           setTimeout(()=>{ idx++; step(); }, 700);
         } else {
           b.classList.add('wrong','shake');
+          showCross();
           setTimeout(()=>b.classList.remove('shake'), 400);
         }
       });
@@ -1350,7 +1359,6 @@ function runTri(container, dig, game){
       chip.className = 'chip' + (selected===it ? ' sel' : '');
       chip.innerHTML = wordBlock(renderSegs(it.segs, dig.id));
       chip.addEventListener('click', ()=>{
-        speak(it.t);
         selected = it;
         renderPool();
       });
@@ -1376,6 +1384,7 @@ function runTri(container, dig, game){
     } else {
       const zone = document.getElementById(zoneOk?'zYes':'zNo');
       zone.classList.add('shake');
+      showCross();
       setTimeout(()=>zone.classList.remove('shake'), 400);
     }
   }
@@ -1426,13 +1435,8 @@ function runAssociationBase(container, dig, game, headText, leftHTML, rightHTML,
         if(matched===n) finishScreen(container, dig, game, finishText);
       }, 700);
     } else {
-      buzzSound();
       w1.classList.add('wrong'); w2.classList.add('wrong');
-      const cross = document.createElement('div');
-      cross.className = 'assoc-cross';
-      cross.textContent = '❌';
-      document.body.appendChild(cross);
-      setTimeout(()=>cross.remove(), 550);
+      showCross();
       selLeft = null; selRight = null;
       setTimeout(()=>{
         w1.classList.remove('wrong','sel'); w2.classList.remove('wrong','sel');
